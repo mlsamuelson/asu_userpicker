@@ -77,6 +77,11 @@ function asu_userpicker_field_widget_form(&$form, &$form_state, $field, $instanc
         '#element_validate' => array('asu_userpicker_autocomplete_validate'),
         '#value_callback' => 'user_reference_autocomplete_value',
       );
+      // Union above can block these, so overwrite. For accessibility.
+      // TODO Consider if we want to reverse the union, with our overides first.
+      // Titles is first problem we've had, so not changing anything else, yet.
+      $element['#title'] = $instance['label'];
+      $element['#title_display'] = 'invisible';
       break;
   }
   return array('uid' => $element);
