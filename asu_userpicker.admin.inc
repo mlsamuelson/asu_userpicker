@@ -15,21 +15,15 @@
  */
 function asu_userpicker_admin_settings($form, &$form_state) {
 
-  // NOTE: A good general CAS and CAS Attributes setup page is available at
-  // https://drupal.asu.edu/create/mapping-user-fields-cas-and-ldap-modules
-
   $intro = '<p>The ASU Userpicker module provides an AJAX autocomplete ';
   $intro .= 'userpicker widget which allows you to search by name and ';
   $intro .= 'ASURITE ID to select users within your Drupal site as well as ';
-  $intro .= 'from ASU LDAP records.</p><p>If you select a user not yet in ';
+  $intro .= 'from ASU Solr records.</p><p>If you select a user not yet in ';
   $intro .= 'your Drupal site, the userpicker creates the user when the ';
   $intro .= 'form is submitted.</p><p>This widget is easily assignable to ';
   $intro .= 'user reference fields using the Fields UI in Drupal and ';
   $intro .= 'is automatically setup for the ';
   $intro .= '<a href="@add_cas_user">Add CAS User form</a>. ';
-  $intro .= 'ASU Userpicker requires the CAS Attributes, LDAP Servers and ';
-  $intro .= 'User Reference modules to be enabled, and at least one LDAP ';
-  $intro .= 'Server to be configured.</p>';
 
   // Intro
   $form['asu_userpicker_intro'] = array(
@@ -38,32 +32,12 @@ function asu_userpicker_admin_settings($form, &$form_state) {
     '#markup' => t($intro, array('@add_cas_user' => url('admin/people/cas/create'))),
   );
 
-  $setup = '<p>When installed, the ASU Userpicker module creates an ';
-  $setup .= 'ASU LDAP server configuration. In order to begin using the ';
-  $setup .= 'userpicker <strong>you must obtain an LDAP ';
-  $setup .= 'application ID and password by emailing ';
-  $setup .= '<a href="mailto:EDNATeam@asu.edu?subject=LDAP%20Application%20Account%20Request">EDNATeam@asu.edu</a>';
-  $setup .= '</strong>. Please provide your site URLs and a brief ';
-  $setup .= 'description of your project. Then update the ';
-  $setup .= '"DN for non-anonymous search" and ';
-  $setup .= '"Password for non-anonymous search" settings in the ';
-  $setup .= '"Binding method" section of ';
-  $setup .= '<a href="@server_conf">that server\'s configuration</a> ';
-  $setup .= 'with the account credentials you receive.</p>';
-
-  $form['asu_userpicker_setup'] = array(
-    '#title' => t('Requesting an LDAP Account'),
-    '#type' => 'item',
-    '#markup' => t($setup, array('@server_conf' => url('admin/config/people/ldap/servers/edit/asu_ldap'))),
-  );
-
-  // Get the skinny on the LDAP server to use. User should consult ldap_server
-  // settings.
-  $form['asu_userpicker_ldap_server'] = array(
+  // Solr server query URL to use.
+  $form['asu_userpicker_solr_query_url'] = array(
     '#type' => 'textfield',
-    '#default_value' => variable_get('asu_userpicker_ldap_server', array()),
-    '#title' => t('LDAP server machine name'),
-    '#description' => t('Provide the machine name of the LDAP server to query.  ' . l('See LDAP servers available.', 'admin/config/people/ldap/servers')),
+    '#default_value' => variable_get('asu_userpicker_solr_query_url', 'https://asudir-solr.asu.edu/asudir/directory/select'),
+    '#title' => t('ASU Solr Query URL'),
+    '#description' => t('Provide the ASU Solr People Query URL. Probably https://asudir-solr.asu.edu/asudir/directory/select' ),
     '#required' => TRUE,
   );
 
@@ -107,6 +81,7 @@ TRUE);
   );
 
 
+/*
   $advanced_setup = '<p>It is possible when new users are created via the ';
   $advanced_setup .= 'ASU Userpicker to automatically map the user\'s first ';
   $advanced_setup .= 'and last names to the user entity. To do this, setup ';
@@ -128,6 +103,7 @@ TRUE);
     '#type' => 'item',
     '#markup' => t($advanced_setup, array('@cas_attr_conf' => url('admin/config/people/cas/attributes'), '@cas_attr_tokens' => url('admin/config/people/cas/attributes/ldap'))),
   );
+*/
 
   return system_settings_form($form); 
 }
