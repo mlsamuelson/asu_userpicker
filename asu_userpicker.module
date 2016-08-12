@@ -186,7 +186,7 @@ function asu_userpicker_autocomplete($string) {
   // Add non-existing users to our list
   foreach ($search_results as $search_result) {
     if ($search_result['asuriteid'][0]) {
-      $items[$search_result['asuriteid'][0]] = $search_result['asuriteid'][0] . ' : ' . $search_result['cn'][0] . ' <' . $search_result['mail'][0] . '>';
+      $items[$search_result['asuriteid'][0]] = $search_result['asuriteid'][0] . ' : ' . $search_result['cn'][0] . ' [' . $search_result['mail'][0] . ']';
     }
   }
 
