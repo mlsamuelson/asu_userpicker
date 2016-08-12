@@ -190,7 +190,7 @@ function asu_userpicker_autocomplete($string) {
   // Add users to our list
   foreach ($solr_data['response']['docs'] as $solr_row) {
     if ($solr_row['asuriteId']) {
-      $items[$solr_row['asuriteId']] = $solr_row['asuriteId'] . ' : ' . $solr_row['displayName'] . ' <' . $solr_row['emailAddress'] . '>';
+      $items[$solr_row['asuriteId']] = $solr_row['asuriteId'] . ' : ' . $solr_row['displayName'] . ' [' . $solr_row['emailAddress'] . ']';
     }
   }
 
@@ -617,7 +617,8 @@ function asu_userpicker_potential_references_view($entity_type, $view_name, $dis
 function asu_userpicker_search_solr($string, $filters = array('asuriteid'), $wildcard = TRUE) {
 
   // Search Solr, ala https://webapp4-qa.asu.edu/solr/directory/select?q={!edismax}*SOMESEARCHSTRING*&rows=10&wt=json
-  $solr_query_url = ASU_DEPT_MGR_SOLR_URL . '?q=%7B!edismax%7D*' . urlencode(check_plain($string)) . '*&rows=20&wt=json';
+  $solr_base_url = variable_get('asu_userpicker_solr_query_url', 'https://asudir-solr.asu.edu/asudir/directory/select');
+  $solr_query_url = $solr_base_url. '?q=%7B!edismax%7D*' . urlencode(check_plain($string)) . '*&rows=20&wt=json';
 
   $solr_response = drupal_http_request($solr_query_url);
   $solr_data = drupal_json_decode($solr_response->data);
