@@ -297,8 +297,8 @@ function asu_userpicker_autocomplete_validate($element, &$form_state, $form) {
         // Other attributes can be synced into place by CAS Attributes module when
         // user logs in. Use that module's configs to set that up. See 
         // /admin/config/people/cas/attributes 
-        $options['edit']['mail'] = $asurite_user['mail'][0];
-        $new_user = cas_user_register($asurite_user['asuriteid'][0], $options);
+        $options['edit']['mail'] = $asurite_user['emailAddress'][0];
+        $new_user = cas_user_register($asurite_user['asuriteId'][0], $options);
 
 // TODO need cas_attributes? or create asu_solr_attributes?
 
